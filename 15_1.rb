@@ -118,7 +118,7 @@ def battle(cave, units, power, elves_must_live)
                 end
 
                 moves = moves.sort_by do |move|
-                    # [move[3], move[0], move[2]] # this was the final bug in part one - reading order of the target was not taken into account
+                    # [move[3], move[2]] # this was the final bug in part one - reading order of the target was not taken into account
                     [move[3], move[0] * width + move[1], move[2]]
                 end
 
