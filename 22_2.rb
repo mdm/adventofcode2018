@@ -36,7 +36,6 @@ pq = MinPriorityQueue.new
 pq.push([[0, 0], 'T'], 0)
 
 until pq.empty?
-    # pp pq.size
     current = pq.pop
 
     pos, equipped = current
