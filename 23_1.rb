@@ -59,7 +59,7 @@ max_in_range = 0
 argmax_in_range = []
 bot_ranges.each do |ranges_a|
     intersection = ranges_a
-    in_range = 1
+    in_range = 0
     bot_ranges.each do |ranges_b|
         if intersect?(intersection, ranges_b)
             intersection = [
