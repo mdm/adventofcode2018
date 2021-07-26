@@ -49,23 +49,21 @@ while line = gets
     original_groups << parse_group(army, line)
 end
 
-boost = 79 # boost 79 gives the correct answer, but why does 78 loop indefinitely?
+boost = 0
 loop do
-    puts boost
-
     groups = original_groups.map do |group|
         group.clone
     end
 
-    immune_system_groups = groups.count do |group|
-        group.army == :immune_system
-    end
+    immune_system_units = groups.map do |group|
+        group.army == :immune_system ? group.units : 0
+    end.sum
+    
+    infection_units = groups.map do |group|
+        group.army == :infection ? group.units : 0
+    end.sum
 
-    infection_groups = groups.count do |group|
-        group.army == :infection
-    end
-
-    while immune_system_groups > 0 && infection_groups > 0
+    while immune_system_units > 0 && infection_units > 0
         groups.sort_by! do |group|
             [group.army == :immune_system ? -group.units * (group.damage + boost) : -group.units * group.damage, -group.initiative]
         end
@@ -104,23 +102,26 @@ loop do
             group.units > 0
         end
 
-        # pp groups, targets if boost > 70
-
-        immune_system_groups = groups.count do |group|
-            group.army == :immune_system
-        end
+        new_immune_system_units = groups.map do |group|
+            group.army == :immune_system ? group.units : 0
+        end.sum
         
-        infection_groups = groups.count do |group|
-            group.army == :infection
-        end
+        new_infection_units = groups.map do |group|
+            group.army == :infection ? group.units : 0
+        end.sum
+
+        break if new_immune_system_units == immune_system_units && new_infection_units == infection_units
+
+        immune_system_units = new_immune_system_units
+        infection_units = new_infection_units
     end
 
-    if groups[0].army == :immune_system
+    if infection_units == 0
         remaining_units = groups.map do |group|
             group.units
         end
         
-        puts boost, remaining_units.sum
+        puts remaining_units.sum
         break
     end
 
