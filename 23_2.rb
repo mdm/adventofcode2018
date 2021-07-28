@@ -69,4 +69,4 @@ bot_ranges.each do |ranges_a|
 end
 
 # pp max_in_range, argmax_in_range
-puts argmax_in_range[0][0]
+puts argmax_in_range[0].max
